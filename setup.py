@@ -6,7 +6,7 @@ from setuptools import setup
 import sys
 
 description = ("This library provides a simple to use Python API for parsing, "
-               "formatting, and normalizing variant names specified in the "
+               "formatting, and normalizing SNV and SV names specified in the "
                "standard recommended by the Human Genome Variation Society "
                "(HGVS).")
 
@@ -19,13 +19,13 @@ def main():
         sys.exit(1)
 
     setup(
-        name='pyhgvs',
-        version='0.11.2',
+        name='pyhgvsv',
+        version='0.1',
         description='HGVS name parsing and formatting',
         long_description=description,
         author='Matt Rasmussen',
         author_email='rasmus@counsyl.com',
-        packages=[str('pyhgvs'), str('pyhgvs.tests')],
+        packages=[str('pyhgvsv'), str('pyhgvsv.tests')],
         include_package_data=True,
         scripts=[],
         install_requires=['pip>=1.2'],
