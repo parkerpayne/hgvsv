@@ -162,7 +162,7 @@ hgvs_name = hgvs.HGVSName('NM_000352.3:c.215-10A>G')
 `hgvsv` can be installed via pip:
 
 ```sh
-pip3 -m install pyhgvsv
+pip -m install pyhgvsv
 ```
 
 Or the library can be installed using the `setup.py` file as follows:
