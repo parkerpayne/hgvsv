@@ -184,6 +184,8 @@ python setup.py nosetests
 This library requires at least Python 2.6, but otherwise has no
 external dependencies.
 
+The library's use often requires refSeq data, which can be found at [http://genome.ucsc.edu/cgi-bin/hgTables](http://genome.ucsc.edu/cgi-bin/hgTables)
+
 The library does assume that genome sequence is available through a `pyfaidx`
 compatible `Fasta` object. For an example of writing a wrapper for
 a different genome sequence back-end, see
