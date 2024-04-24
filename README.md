@@ -90,15 +90,16 @@ transcript model or a callback for fetching the transcript model
 as few assumptions as possible about how this external data is stored.
 In this example, the genome sequence is read using the `pyfaidx` library
 and transcripts are read from a RefSeqGenes flat-file using methods
-provided by `hgvs`.
+provided by `hgvsv`.
 
 ```python
-import pyhgvs as hgvs
-import hgvs.utils as hgvs_utils
+import pyhgvsv as hgvsv
+import pyhgvsv.utils as hgvsv_utils
 from pyfaidx import Fasta
 
 # Read genome sequence using pyfaidx.
-genome = Fasta('hg19.fa')
+# !!! ALL BELOW EXAMPLES FOR 'NM_000352.3:c.215A>G' USE hg19. RESULTS WILL VARY. !!!
+genome = Fasta('/tmp/hg38.fa')
 
 # Read RefSeq transcripts into a python dict.
 with open('hgvs/data/genes.refGene') as infile:
@@ -121,9 +122,23 @@ transcript = get_transcript('NM_000352.3')
 hgvs_name = hgvs.format_hgvs_name(
     chrom, offset, ref, alt, genome, transcript)
 # Returns 'NM_000352.3(ABCC8):c.215A>G'
+
+# Format an HGVS name for a structural variant (deletion).
+chrom, offset, ref, alt, sv_length = ('chrY', 24861625, '', '', -4780)
+transcript = get_transcript('NM_001388484.1')
+hgvs_name = hgvsv.format_hgvs_name(
+    chrom, offset, ref, alt, genome, transcript)
+# Returns 'NM_001388484.1(DAZ4):c.1210-436_1354-437del4780'
+
+# Format an HGVS name for a structural variant (insertion).
+chrom, offset, ref, alt, sv_length = ('chr17', 8141778, '', 'TTCTCCCCCCTTGAACTTGAGCTCAATTC', 29)
+transcript = get_transcript('NM_002616.3')
+hgvs_name = hgvsv.format_hgvs_name(
+    chrom, offset, ref, alt, genome, transcript)
+# Returns 'NM_002616.3(PER1):c.3600+26_3600+27ins29'
 ```
 
-The `hgvs` library can also perform just the parsing step and provide
+The `hgvsv` library can also perform just the parsing step and provide
 a parse tree of the HGVS name.
 
 ```python

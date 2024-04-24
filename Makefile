@@ -1,7 +1,7 @@
 #! /usr/bin/make
 
-PACKAGE_NAME=pyhgvs
-SCRIPTS=bin/hgvs
+PACKAGE_NAME=pyhgvsv
+SCRIPTS=bin/hgvsv
 TEST_OUTPUT?=nosetests.xml
 
 VENV_DIR?=.venv

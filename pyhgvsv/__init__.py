@@ -96,6 +96,7 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 
 import re
+from random import choice
 
 from .variants import justify_indel
 from .variants import normalize_variant
@@ -1465,7 +1466,7 @@ def variant_to_hgvs_name(chrom, offset, ref, alt, genome, transcript,
     return hgvs
 
 
-def format_hgvs_name(chrom, offset, ref, alt, genome, transcript,
+def format_hgvs_name(chrom, offset, ref, alt, genome, transcript, sv_length=0,
                      use_prefix=True, use_gene=True, use_counsyl=False,
                      max_allele_length=4):
     """
@@ -1477,12 +1478,45 @@ def format_hgvs_name(chrom, offset, ref, alt, genome, transcript,
     alt: Alternate allele.
     genome: pygr compatible genome object.
     transcript: Transcript corresponding to allele.
+    sv_length: Length of structural variant. Negative length denotes deletion, positive length denotes insertion.
     use_prefix: Include a transcript/gene/chromosome prefix in HGVS name.
     use_gene: Include gene name in HGVS prefix.
     max_allele_length: If allele is greater than this use allele length.
     """
+    match sv_length:
+        case sv_length if sv_length > 0:
+            ref = getbases(genome, chrom, offset-2, 1)
+            alt = getbases(genome, chrom, offset-2, 1) + alt
+        case sv_length if sv_length < 0:
+            ref = getbases(genome, chrom, offset-2, abs(sv_length)+1)
+            alt = getbases(genome, chrom, offset-2, 1)
+        case default:
+            pass
+
     hgvs = variant_to_hgvs_name(chrom, offset, ref, alt, genome, transcript,
                                 max_allele_length=max_allele_length,
                                 use_counsyl=use_counsyl)
     return hgvs.format(use_prefix=use_prefix, use_gene=use_gene,
                        use_counsyl=use_counsyl)
+
+
+def getbases(genome, chrom, position, length):
+    """
+    Retrieve bases from reference at specified position.
+
+    Args:
+        genome (pyfaidx.Fasta): pygr compatible genome object.
+        chrom (str): Chromosome name.
+        position (int): Genomic position of allele.
+        length (int): Length of base selection.
+
+    Returns:
+        str: Bases in string format.
+    """
+    selected_bases = genome[chrom][position-1:position+abs(length)-1]
+    return str(selected_bases)
+
+
+def randombase():
+    nucleotides = ['A', 'T', 'C', 'G']
+    return choice(nucleotides)

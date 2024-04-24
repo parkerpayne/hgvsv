@@ -29,16 +29,16 @@ The following output should be displayed:
 from __future__ import print_function
 
 from __future__ import unicode_literals
-import pyhgvs as hgvs
-import pyhgvs.utils as hgvs_utils
+import pyhgvsv as hgvsv
+import pyhgvsv.utils as hgvsv_utils
 from pyfaidx import Fasta
 
 # Read genome sequence using pyfaidx.
-genome = Fasta('/tmp/hg19.fa')
+genome = Fasta('/tmp/hg38.fa')
 
 # Read RefSeq transcripts into a python dict.
-with open('pyhgvs/data/genes.refGene') as infile:
-    transcripts = hgvs_utils.read_transcripts(infile)
+with open('pyhgvsv/data/genes.refGene') as infile:
+    transcripts = hgvsv_utils.read_transcripts(infile)
 
 
 # Provide a callback for fetching a transcript by its name.
@@ -47,7 +47,7 @@ def get_transcript(name):
 
 
 # Parse the HGVS name into genomic coordinates and alleles.
-chrom, offset, ref, alt = hgvs.parse_hgvs_name(
+chrom, offset, ref, alt = hgvsv.parse_hgvs_name(
     'NM_000352.3:c.215A>G', genome, get_transcript=get_transcript)
 print(chrom, offset, ref, alt)
 # Returns variant in VCF style: ('chr11', 17496508, 'T', 'C')
@@ -58,13 +58,27 @@ print(chrom, offset, ref, alt)
 # Format an HGVS name.
 chrom, offset, ref, alt = ('chr11', 17496508, 'T', 'C')
 transcript = get_transcript('NM_000352.3')
-hgvs_name = hgvs.format_hgvs_name(
+hgvs_name = hgvsv.format_hgvs_name(
     chrom, offset, ref, alt, genome, transcript)
 print(hgvs_name)
 # Returns 'NM_000352.3(ABCC8):c.215A>G'
 
+# Format an HGVS name for a structural variant (deletion).
+chrom, offset, ref, alt, sv_length = ('chrY', 24861625, '', '', -4780)
+transcript = get_transcript('NM_001388484.1')
+hgvs_name = hgvsv.format_hgvs_name(
+    chrom, offset, ref, alt, genome, transcript)
+# Returns 'NM_001388484.1(DAZ4):c.1210-436_1354-437del4780'
 
-hgvs_name = hgvs.HGVSName('NM_000352.3:c.215-10A>G')
+# Format an HGVS name for a structural variant (insertion).
+chrom, offset, ref, alt, sv_length = ('chr17', 8141778, '', 'TTCTCCCCCCTTGAACTTGAGCTCAATTC', 29)
+transcript = get_transcript('NM_002616.3')
+hgvs_name = hgvsv.format_hgvs_name(
+    chrom, offset, ref, alt, genome, transcript)
+# Returns 'NM_002616.3(PER1):c.3600+26_3600+27ins29'
+
+
+hgvs_name = hgvsv.HGVSName('NM_000352.3:c.215-10A>G')
 # fields of the HGVS name are available as attributes:
 #
 # hgvs_name.transcript = 'NM_000352.3'
