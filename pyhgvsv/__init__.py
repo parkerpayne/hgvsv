@@ -1484,11 +1484,11 @@ def format_hgvs_name(chrom, offset, ref, alt, genome, transcript, sv_length=0,
     """
     match sv_length:
         case sv_length if sv_length > 0:
-            ref = getbases(genome, chrom, offset-2, 1)
-            alt = getbases(genome, chrom, offset-2, 1) + alt
+            ref = getbases(genome, chrom, offset-1, 1)
+            alt = getbases(genome, chrom, offset-1, 1) + alt
         case sv_length if sv_length < 0:
-            ref = getbases(genome, chrom, offset-2, abs(sv_length)+1)
-            alt = getbases(genome, chrom, offset-2, 1)
+            ref = getbases(genome, chrom, offset-1, abs(sv_length)+1)
+            alt = getbases(genome, chrom, offset-1, 1)
         case default:
             pass
 
