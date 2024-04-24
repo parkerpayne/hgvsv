@@ -127,14 +127,14 @@ hgvs_name = hgvs.format_hgvs_name(
 chrom, offset, ref, alt, sv_length = ('chrY', 24861625, '', '', -4780)
 transcript = get_transcript('NM_001388484.1')
 hgvs_name = hgvsv.format_hgvs_name(
-    chrom, offset, ref, alt, genome, transcript)
+    chrom, offset, ref, alt, genome, transcript, sv_length)
 # Returns 'NM_001388484.1(DAZ4):c.1210-436_1354-437del4780'
 
 # Format an HGVS name for a structural variant (insertion).
 chrom, offset, ref, alt, sv_length = ('chr17', 8141778, '', 'TTCTCCCCCCTTGAACTTGAGCTCAATTC', 29)
 transcript = get_transcript('NM_002616.3')
 hgvs_name = hgvsv.format_hgvs_name(
-    chrom, offset, ref, alt, genome, transcript)
+    chrom, offset, ref, alt, genome, transcript, sv_length)
 # Returns 'NM_002616.3(PER1):c.3600+26_3600+27ins29'
 ```
 

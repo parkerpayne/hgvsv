@@ -96,7 +96,6 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 
 import re
-from random import choice
 
 from .variants import justify_indel
 from .variants import normalize_variant
@@ -1515,8 +1514,3 @@ def getbases(genome, chrom, position, length):
     """
     selected_bases = genome[chrom][position-1:position+abs(length)-1]
     return str(selected_bases)
-
-
-def randombase():
-    nucleotides = ['A', 'T', 'C', 'G']
-    return choice(nucleotides)
