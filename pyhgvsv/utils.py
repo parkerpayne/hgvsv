@@ -69,6 +69,11 @@ def make_transcript(transcript_json):
     """
     Make a Transcript form a JSON object.
     """
+    transcript_chrom = transcript_json['chrom']
+    if '_' in transcript_chrom:
+        patch = transcript_chrom.split('_')[-1]
+    else:
+        patch = ''
 
     transcript_name = transcript_json['id']
     if '.' in transcript_name:
@@ -77,7 +82,7 @@ def make_transcript(transcript_json):
         name, version = transcript_name, None
 
     transcript = Transcript(
-        name=name,
+        name=name+patch,
         version=int(version) if version is not None else None,
         gene=transcript_json['gene_name'],
         tx_position=Position(
