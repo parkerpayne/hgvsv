@@ -110,7 +110,7 @@ def get_transcript(name):
     return transcripts.get(name)
 
 # Parse the HGVS name into genomic coordinates and alleles.
-chrom, offset, ref, alt = hgvs.parse_hgvs_name(
+chrom, offset, ref, alt = hgvsv.parse_hgvs_name(
     'NM_000352.3:c.215A>G', genome, get_transcript=get_transcript)
 # Returns variant in VCF style: ('chr11', 17496508, 'T', 'C')
 # Notice that since the transcript is on the negative strand, the alleles
@@ -119,7 +119,7 @@ chrom, offset, ref, alt = hgvs.parse_hgvs_name(
 # Format an HGVS name.
 chrom, offset, ref, alt = ('chr11', 17496508, 'T', 'C')
 transcript = get_transcript('NM_000352.3')
-hgvs_name = hgvs.format_hgvs_name(
+hgvs_name = hgvsv.format_hgvs_name(
     chrom, offset, ref, alt, genome, transcript)
 # Returns 'NM_000352.3(ABCC8):c.215A>G'
 
